@@ -1,4 +1,4 @@
-File_staff = "staff.txt"
+File_staff = "Jia Yi/staff.txt"
 def add_staff_manager(File_staff):
     username= input(f"Enter manager username: ")
     password= input(f"Enter password: ")
@@ -22,3 +22,4 @@ def edit_staff_manager(File_staff):
         print(f"No staff records found")
         return
     update= False
+helooooo
