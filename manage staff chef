@@ -1,0 +1,82 @@
+File_staff = "staff.txt"
+
+def add_staff_chef(File_staff):
+    username = input(f"Enter chef username: ")
+    password = input(f"Enter password: ")
+    email = input(f"Enter email address: ")
+    phone = input(f"Enter phone number: ")
+    gender = input(f"Enter gender: ")
+    speciality = input(f"Enter your speciality: ")
+
+    with open(File_staff, "a") as file:
+        file.write(f"{username} \n{password} \n{email} \n{phone} \n{gender} \n{speciality} \n")
+    print(f"Hello, chef {username} added successfully. ")
+
+def edit_staff_chef(File_staff, username):
+    username= input(f"Enter username of the chef that you want to edit: ")
+    try:
+        with open(File_staff, "r") as file:
+            lines= file.readlines() #read each line in the file into the lines list
+    except FileNotFoundError:
+        print(f"No staff records found")
+        return
+
+    updated = False
+
+    with open(File_staff, "w") as file:
+        for line in lines:
+            data = line.strip().split(",") #split the line with ,
+            if data[0] == username: #data[0] represent the first data in the list
+                while True:
+                    try:
+
+                        print(f"Editing details for {username} \n1.Username \n2.Password \n3.Email address \n4.Phone number \n5.Gender \n6.Years of experience \n7.Exit")
+                        choice = int(input(f"Enter your choice on which you wish to edit: "))
+                        if choice == 1:
+                            data[0] = input(f"Enter new username: ") or data[0]
+                        elif choice == 2:
+                            data[1] = input(f"Enter new password: ") or data[1]
+                        elif choice == 3:
+                            data[2] = input(f"Enter new email address: ") or data[2]
+                        elif choice == 4:
+                            data[3] = input(f"Enter new phone number: ") or data[3]
+                        elif choice == 5:
+                            data[4] = input(f"Enter new gender: ") or data[4]
+                        elif choice == 6:
+                            data[5] = input(f"Enter new speciality: ") or data[5]
+                        elif choice == 7:
+                            print("Exiting edit mode")
+                            #Update the record into the file
+                            file.write(f"{data[0]}, {data[1]}, {data[2]}, {data[3]}, {data[4]}, {data[5]} \n")
+                            updated = True
+                            print(f"Chef {username}'s details has been updated successfully.")
+                            break
+                        else:
+                            print("Invalid input, please enter number 1 - 5")
+                            file.write(line)
+                    except ValueError:
+                        print("Invalid input. Please enter number.")
+                    file.write(line + "\n") #write back unmodified lines (username)
+
+
+def delete_staff_chef(File_staff):
+    username = input("Enter username of the chef you want to delete: ")
+
+    try:
+        with open(File_staff, "r") as file:
+            lines = file.readlines()
+    except FileNotFoundError:
+        print("No staff records found.")
+        return
+
+    deleted = False
+    with open(File_staff, "w") as file:
+        for line in lines:
+            data = line.strip().split(",")
+            if data[0] == username:
+                deleted = True
+                print(f"Chef {username} has been delete successfully")
+            else:
+                file.write(line + "\n") #write back unmodified lines
+    if not deleted:
+        print(f"No chef found with username: {username}")
